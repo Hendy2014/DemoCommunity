@@ -17,7 +17,6 @@ public class Application extends android.app.Application {
     public static Handler mainHandler;
 
 
-
     @Override
     public void onCreate() {
         super.onCreate();
