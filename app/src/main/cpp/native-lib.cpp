@@ -170,7 +170,7 @@ void expandFile(int fd, off64_t end_offset) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_lhy_comm_mars_XLogUtil_openMyLog(
+Java_com_lhy_comm_mars_MyLogUtil_openMyLog(
         JNIEnv* env,
         jobject obj, jstring path) {
 
@@ -198,7 +198,7 @@ Java_com_lhy_comm_mars_XLogUtil_openMyLog(
         }
     }
 
-    //bug: 无文件先创建,但要重新打开,以读写方式打开,否则后面的读写操作无权限进行
+    //bug fixed: 无文件先创建,但要重新打开,以读写方式打开,否则后面的读写操作无权限进行
     mapfd=open(str_path.c_str(), O_RDWR);
     if(mapfd<0) {
         LOGE("error open, path=%s\n", str_path.c_str());
@@ -239,7 +239,7 @@ Java_com_lhy_comm_mars_XLogUtil_openMyLog(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_lhy_comm_mars_XLogUtil_writeMyLog(
+Java_com_lhy_comm_mars_MyLogUtil_writeMyLog(
         JNIEnv* env,
         jobject obj, jint level, jstring tag, jstring msg) {
 

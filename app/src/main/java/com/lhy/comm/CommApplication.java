@@ -23,7 +23,7 @@ public class CommApplication extends Application implements Thread.UncaughtExcep
         super.onCreate();
 
         GlobalContext.setContext(this.getApplicationContext());
-        XLogUtil.initXlog(this);
+//        XLogUtil.initXlog(this);
 
         Log.d(TAG, "Application onCreate");
         Thread.setDefaultUncaughtExceptionHandler(this);
@@ -59,7 +59,7 @@ public class CommApplication extends Application implements Thread.UncaughtExcep
 
     //TODO: call this when user exit app
     public void onExitApp(){
-        Log.appenderClose();
+//        XLogUtil.closeXlog();
     }
 
 }
