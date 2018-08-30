@@ -11,12 +11,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.WeakHashMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
@@ -103,7 +106,6 @@ public class CollectionTest {
         c.contains("aa");
         //结合使用哈希值的地方使用，如HashMap
         c.hashCode();
-
     }
 
     @Test
@@ -114,23 +116,7 @@ public class CollectionTest {
         //大数组时，容量决定着list的内存占用大小
         List<String> list = new ArrayList<>(30);
 
-        //List相关的API如下，重点关注clone()，索引操作特点，对象比较相等条件，序列化
-//        // AbstractCollection中定义的API
-//        void                add(int location, E object)
-//        boolean             addAll(int location, Collection<? extends E> collection)
-//        E                   get(int location)
-//        int                 indexOf(Object object)
-//        int                 lastIndexOf(Object object)
-//        ListIterator<E>     listIterator(int location)
-//        ListIterator<E>     listIterator()
-//        E                   remove(int location)
-//        E                   set(int location, E object)
-//        List<E>             subList(int start, int end)
-//        // ArrayList新增的API
-//        Object               clone()
-//        void                 ensureCapacity(int minimumCapacity)
-//        void                 trimToSize()
-//        void                 removeRange(int fromIndex, int toIndex)
+        //List相关的API，重点关注底层数组索引操作的特性，clone()，对象比较相等条件，序列化
 
         //基本操作
         for (int i = 0; i < 100; i++) {
@@ -157,8 +143,6 @@ public class CollectionTest {
         //简单讲，就是两个线程，拿同一个ArrayList对象，调用它的Iterator()方法，产生了两个ArrayList.Itr对象，
         //拿去操作list，一个删元素，一个读元素，Itr最终也是操作ArrayList对象，是同一个
         //因此，存在线程同步问题，但看Itr操作，get()方法，均没见有同步方面的措施
-        //因此，有个疑问，
-        // TODO: 虽然有fail-fast机制，但没有同步，难道就不会说checkModification()方法之后，恰好通过，然后线程1停止，线程2去删除 ，线程1回来继续读取而出错吗？
 
         //ArrayList总结：
         // 底层使用数组实现，通过索引访问元素是最高效的，
@@ -211,9 +195,18 @@ public class CollectionTest {
         System.out.println("time2 :" + (endTime - startTime));
 
         //TODO: 理论上是随机访问很慢，但实际结果却是时间0，始终是0？ 哪里有问题？
+        //原因只有一个，它是有序的，优先查找下一个节点，在这个循环中，每次刚好下个就是，O(1)的复杂度
+        //但即使改成乱序访问，也不行啊，还是0的时间间隔
         startTime = System.currentTimeMillis();
+        boolean revert = false;
         for (int i = 0; i < link.size(); i++) {
-            link.get(i);
+            if(!revert){
+                link.get(i);
+            }else {
+                link.get(link.size() - i);
+            }
+
+            revert = !revert;
         }
         endTime = System.currentTimeMillis();
         System.out.println("time3 :" + (endTime - startTime));
@@ -360,5 +353,42 @@ public class CollectionTest {
             System.out.println("[" + key + "," + integ + "]");
         }
 
+        //如果存放在WeakHashMap中的key都存在强引用，那么WeakHashMap就会退化为HashMap。
+        // -Xmx5M java.lang.OutOfMemoryError: Java heap space
+        // at cn.intsmaze.collection.MapCase.testWeakHash(MapCase.java:119)
+        //以下可以理解为模拟大量缓存键值对
+        map = new WeakHashMap<Integer, Byte[]>();
+        List list = new ArrayList();
+        for (int i = 0; i < 100000; i++) {
+            System.out.println("add " + i);
+            Integer integer = new Integer(i);
+            map.put(integer, new Byte[i]);
+            // 可以把这行注释，否则内存溢出
+//            list.add(integer);
+        }
+        // 没有list强引用，最终WeakHashMap的size远小于100000
+        System.out.println("map.size()=" + map.size());
+
+    }
+
+
+    @Test
+    public void testHashSet(){
+        Set<Integer> set = new HashSet<>();
+        set = new TreeSet<>();
+
+        for (int i = 0; i < 10; i++) {
+            set.add(i);
+        }
+
+        for(Iterator iterator = set.iterator();
+            iterator.hasNext(); ) {
+            Integer a =(Integer)iterator.next();
+        }
+
+        System.out.println(Arrays.toString(set.toArray()));
+        set.remove(3);
+        System.out.println(Arrays.toString(set.toArray()));
+        set.clear();
     }
 }

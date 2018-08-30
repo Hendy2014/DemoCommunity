@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             MyLogUtil.d("MainActivity", msg2)
         })
 
-//        APITest.testUriAndFileProvider(this)
+        APITest.testUriAndFileProvider(this)
     }
 
     /**
