@@ -7,6 +7,7 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
@@ -136,10 +137,10 @@ public class CollectionTest {
         vectorToArray2(new ArrayList<Integer>(5));
         vectorToArray3(new ArrayList<Integer>(5));
 
-//        fail-fast 机制是java集合(Collection)中的一种错误机制。
-// 当多个线程对同一个集合的内容进行操作时，就可能会产生fail-fast事件。
-//        例如：当某一个线程A通过iterator去遍历某集合的过程中，若该集合的内容被其他线程所改变了；
-// 那么线程A访问集合时，就会抛出ConcurrentModificationException异常，产生fail-fast事件。
+        //        fail-fast 机制是java集合(Collection)中的一种错误机制。
+        // 当多个线程对同一个集合的内容进行操作时，就可能会产生fail-fast事件。
+        //        例如：当某一个线程A通过iterator去遍历某集合的过程中，若该集合的内容被其他线程所改变了；
+        // 那么线程A访问集合时，就会抛出ConcurrentModificationException异常，产生fail-fast事件。
         //简单讲，就是两个线程，拿同一个ArrayList对象，调用它的Iterator()方法，产生了两个ArrayList.Itr对象，
         //拿去操作list，一个删元素，一个读元素，Itr最终也是操作ArrayList对象，是同一个
         //因此，存在线程同步问题，但看Itr操作，get()方法，均没见有同步方面的措施
@@ -368,7 +369,6 @@ public class CollectionTest {
         }
         // 没有list强引用，最终WeakHashMap的size远小于100000
         System.out.println("map.size()=" + map.size());
-
     }
 
 
@@ -390,5 +390,36 @@ public class CollectionTest {
         set.remove(3);
         System.out.println(Arrays.toString(set.toArray()));
         set.clear();
+    }
+
+    @Test
+    public void testBitSet(){
+        BitSet bits1 = new BitSet(16);
+        BitSet bits2 = new BitSet(16);
+
+        // set some bits
+        for(int i=0; i<16; i++) {
+            if((i%2) == 0) bits1.set(i);
+            if((i%5) != 0) bits2.set(i);
+        }
+        System.out.println("Initial pattern in bits1: ");
+        System.out.println(bits1);
+        System.out.println("\nInitial pattern in bits2: ");
+        System.out.println(bits2);
+
+        // AND bits
+        bits2.and(bits1);
+        System.out.println("\nbits2 AND bits1: ");
+        System.out.println(bits2);
+
+        // OR bits
+        bits2.or(bits1);
+        System.out.println("\nbits2 OR bits1: ");
+        System.out.println(bits2);
+
+        // XOR bits
+        bits2.xor(bits1);
+        System.out.println("\nbits2 XOR bits1: ");
+        System.out.println(bits2);
     }
 }

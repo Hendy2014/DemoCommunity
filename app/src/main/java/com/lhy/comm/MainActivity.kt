@@ -22,6 +22,7 @@ import android.support.v4.content.FileProvider
 import android.os.Build
 import com.lhy.comm.mars.MyLogUtil
 import com.lhy.comm.test.APITest
+import com.lhy.comm.test.JNITest
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,9 +41,13 @@ class MainActivity : AppCompatActivity() {
             val msg = "U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈"+ "U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈"+ "U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈"+ "U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈"            + "U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈"+ "U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈U clicked 哈哈"
             val msg2 = msg + msg + msg + msg + msg + msg + msg + msg + msg
             MyLogUtil.d("MainActivity", msg2)
+//            val a = JNITest.MyNewString()
+//            val b = JNITest.MyNewGlobalString()
+            val b = JNITest.MyNewWeakGlobalRefString()
+            tv.setText("Hello aafadf + " + b)
         })
 
-        APITest.testUriAndFileProvider(this)
+//        APITest.testUriAndFileProvider(this)
     }
 
     /**
