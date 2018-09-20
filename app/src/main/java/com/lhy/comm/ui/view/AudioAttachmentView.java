@@ -114,11 +114,14 @@ public class AudioAttachmentView extends LinearLayout {
         mPlayPauseButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
+                boolean pauseState = false;
                 // Has the MediaPlayer already been prepared?
                 if (mMediaPlayer != null && mPrepared) {
                     if (mMediaPlayer.isPlaying()) {
                         mMediaPlayer.pause();
                         mChronometer.pause();
+                        updatePauseButton();
+                        pauseState = true;
                     } else {
                         playAudio();
                     }
@@ -136,7 +139,9 @@ public class AudioAttachmentView extends LinearLayout {
                 }
 
                 AudioPlayManager.getInstance().stopAudios(AudioAttachmentView.this);
-                updatePlayPauseButtonState();
+                if(!pauseState){
+                    updatePlayPauseButtonState();
+                }
             }
         });
         updatePlayPauseButtonState();
@@ -411,7 +416,17 @@ public class AudioAttachmentView extends LinearLayout {
             }
         }
 
-        updatePlayPauseButtonState();
+        updatePauseButton();
+    }
+
+    private void updatePauseButton() {
+        final boolean playing = mMediaPlayer != null && mMediaPlayer.isPlaying();
+        updateChronometerVisibility(playing);
+        if (mStartPlayAfterPrepare || playing) {
+
+        } else {
+            mPlayPauseButton.setPauseStatus(PAUSE_BUTTON);
+        }
     }
 
     /**

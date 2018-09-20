@@ -19,6 +19,7 @@ public class ConversationDrawables {
 
     private Drawable mAudioPlayButtonDrawable;
     private Drawable mAudioPauseButtonDrawable;
+    private Drawable mAudioPauseButtonDrawable2;
     private final Context mContext;
     private int mThemeColor;
 
@@ -43,6 +44,7 @@ public class ConversationDrawables {
         final Resources resources = mContext.getResources();
         mAudioPlayButtonDrawable = resources.getDrawable(R.drawable.hy_card_audio_3);
         mAudioPauseButtonDrawable = resources.getDrawable(R.drawable.hy_card_audio_3);
+        mAudioPauseButtonDrawable2 = resources.getDrawable(R.drawable.hy_card_audio_1);
         mThemeColor = resources.getColor(R.color.hy_primary_color);
     }
 
@@ -54,5 +56,10 @@ public class ConversationDrawables {
     public Drawable getPauseButtonDrawable(final boolean incoming) {
         return ImageUtils.getTintedDrawable(
                 mContext, mAudioPauseButtonDrawable);
+    }
+
+    public Drawable getPauseButtonDrawable2(final boolean incoming) {
+        return ImageUtils.getTintedDrawable(
+                mContext, mAudioPauseButtonDrawable2);
     }
 }

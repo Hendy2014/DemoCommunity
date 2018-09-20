@@ -78,4 +78,12 @@ public class AudioAttachmentPlayPauseButton extends ViewSwitcher {
             anim.start();
         }
     }
+
+    public void setPauseStatus(int pauseButton) {
+        mPlayButton.clearAnimation();
+        mPlayButton.setImageDrawable(ConversationDrawables.get()
+                .getPauseButtonDrawable2(mShowAsIncoming));
+        mPauseButton.setImageDrawable(ConversationDrawables.get()
+                .getPauseButtonDrawable2(mShowAsIncoming));
+    }
 }
