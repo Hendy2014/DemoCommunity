@@ -1,0 +1,17 @@
+<resources>
+    <string name="unknown_sender" msgid="504272434917395677">"未知发件人"</string>
+
+    <string name="hy_audio_recording_replay_failed">"无法播放语音，请重试。"</string>
+    <string name="hy_video_recording_replay_failed">"无法播放视频，请重试。"</string>
+    <string name="hy_card_message">[卡片消息]</string>
+    <string name="hy_card_rich_text">[富文本消息]</string>
+    <string name="hy_card_mms">[富媒体消息]</string>
+    <string name="hy_message_copy">已复制到剪贴板</string>
+    <string name="hy_call_permission">请开启拔打电话权限</string>
+    <string name="hy_event_call_error">未设置号码</string>
+    <string name="hy_event_error">参数错误</string>
+    <string name="hy_event_app">请安装应用</string>
+    <string name="hy_event_call_app">未安装拔号应用</string>
+    <string name="hy_quick_app">未安装快应用运行环境</string>
+
+</resources>

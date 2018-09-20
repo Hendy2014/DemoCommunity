@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="hy_conversation_list_image_preview_corner_radius">3dp</dimen>
+    <dimen name="hy_audio_attachment_text_size">14sp</dimen>
+</resources>

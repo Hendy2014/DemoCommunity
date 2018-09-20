@@ -23,6 +23,7 @@ import android.os.Build
 import com.lhy.comm.mars.MyLogUtil
 import com.lhy.comm.test.APITest
 import com.lhy.comm.test.JNITest
+import com.lhy.comm.ui.DynamicActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 //        APITest.testUriAndFileProvider(this)
+        startActivity(Intent(this, DynamicActivity::class.java))
     }
 
     /**

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">DemoCommunity</string>
+
+    <!-- Failed to replay recorded audio -->
+    <string name="hy_audio_recording_replay_failed">Can\'t play audio. Try again.</string>
+    <string name="hy_video_recording_replay_failed">Can\'t play video. Try again.</string>
+    <string name="hy_card_message">[card message]</string>
+    <string name="hy_card_rich_text">[rich message]</string>
+    <string name="hy_card_mms">[mms_message]</string>
 </resources>

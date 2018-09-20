@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Trace;
 //import android.util.Log;
 
+import com.lhy.comm.mars.MyLogUtil;
 import com.lhy.comm.mars.XLogUtil;
 import com.lhy.comm.utils.GlobalContext;
 import com.tencent.mars.xlog.Log;
@@ -23,6 +24,7 @@ public class CommApplication extends Application implements Thread.UncaughtExcep
         super.onCreate();
 
         GlobalContext.setContext(this.getApplicationContext());
+        MyLogUtil.openMyLog();
 //        XLogUtil.initXlog(this);
 
         Log.d(TAG, "Application onCreate");

@@ -8,4 +8,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AudioAttachmentViewPlayPauseButtonStyle">
+        <item name="android:layout_marginRight">1dp</item>
+    </style>
+
+    <style name="AudioAttachmentViewStyle">
+        <item name="android:paddingRight">1dp</item>
+        <item name="android:paddingLeft">1dp</item>
+    </style>
+
+    <style name="AudioAttachmentViewTimerText">
+        <item name="android:textSize">@dimen/hy_audio_attachment_text_size</item>
+        <item name="android:textColor">@color/hy_audio_attachment_timer_text_color</item>
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+
 </resources>
