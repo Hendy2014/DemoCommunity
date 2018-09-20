@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -114,6 +115,8 @@ public class AudioAttachmentView extends LinearLayout {
         mPlayPauseButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
+                AudioPlayManager.getInstance().stopAudios(AudioAttachmentView.this);
+
                 boolean pauseState = false;
                 // Has the MediaPlayer already been prepared?
                 if (mMediaPlayer != null && mPrepared) {
@@ -138,12 +141,12 @@ public class AudioAttachmentView extends LinearLayout {
                     }
                 }
 
-                AudioPlayManager.getInstance().stopAudios(AudioAttachmentView.this);
                 if(!pauseState){
                     updatePlayPauseButtonState();
                 }
             }
         });
+
         updatePlayPauseButtonState();
         initializeViewsForMode();
     }
