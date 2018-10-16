@@ -42,31 +42,6 @@ public class XLogUtil {
 //        Log.appenderClose();
     }
 
-    //================================  my Log Util ================================
-//
-//    public static void openMyLog(){
-//        String processName = getMyProcessName();
-//        if (processName == null) {
-//            return;
-//        }
-//
-//        final String SDCARD = Environment.getExternalStorageDirectory().getAbsolutePath();
-//        String logFileName = processName.indexOf(":") == -1 ? "DemoCommunity" : ("DemoCommunity_" + processName.substring(processName.indexOf(":") + 1));
-//        final String logPath = SDCARD + "/DemoComm/log/" + logFileName + ".log";
-//
-//        openMyLog(logPath);
-//    }
-//
-//    public static void d(String tag, String msg){
-//        writeMyLog(tag, msg);
-//    }
-//
-//    private static void writeMyLog(String tag, String msg){
-//        writeMyLog(0, tag, msg);
-//    }
-//    public native static void openMyLog(String path);
-//    public native static void writeMyLog(int level, String tag, String msg);
-
     static {
 //        System.loadLibrary("stlport_shared");
 //        System.loadLibrary("marsxlog");

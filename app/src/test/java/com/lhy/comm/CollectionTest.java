@@ -115,27 +115,39 @@ public class CollectionTest {
         //默认容量是10，构造时可以指定初始容量，扩展容量时，公式是(ori * 3)/2 + 1
         //但容量是容量，与list.size()元素总量是两回事
         //大数组时，容量决定着list的内存占用大小
-        List<String> list = new ArrayList<>(30);
+        {
+            List<String> list = new ArrayList<>(30);
 
-        //List相关的API，重点关注底层数组索引操作的特性，clone()，对象比较相等条件，序列化
+            //List相关的API，重点关注底层数组索引操作的特性，clone()，对象比较相等条件，序列化
 
-        //基本操作
-        for (int i = 0; i < 100; i++) {
-            list.add(new Integer(i).toString());
+            //基本操作
+            for (int i = 0; i < 100; i++) {
+                list.add(new Integer(i).toString());
+            }
+
+            //元素访问
+            //三种方式，fori + get()进行随机访问，iterator，foreach
+            //可想而知，fori + get()是最快的，因为底层是数组，通过索引访问最快，O(1)速度
+            //因此，ArrayList进行元素访问，get()方法是最具效率的写法
+            for (int i = 0; i < 100; i++) {
+                System.out.println(list.get(i));
+            }
+
+            //TODO: toArray()存在类型转换的问题？
+            vectorToArray1(new ArrayList<Integer>(5));
+            vectorToArray2(new ArrayList<Integer>(5));
+            vectorToArray3(new ArrayList<Integer>(5));
         }
 
-        //元素访问
-        //三种方式，fori + get()进行随机访问，iterator，foreach
-        //可想而知，fori + get()是最快的，因为底层是数组，通过索引访问最快，O(1)速度
-        //因此，ArrayList进行元素访问，get()方法是最具效率的写法
-        for (int i = 0; i < 100; i++) {
-            System.out.println(list.get(i));
+        {
+            //List是允许重复元素的，与set,map不同
+            List<String> list = new ArrayList<String>();
+            String s = "hello";
+            list.add(s);
+            list.add(s);
+            list.add(s);
+            System.out.println(list.size());
         }
-
-        //TODO: toArray()存在类型转换的问题？
-        vectorToArray1(new ArrayList<Integer>(5));
-        vectorToArray2(new ArrayList<Integer>(5));
-        vectorToArray3(new ArrayList<Integer>(5));
 
         //        fail-fast 机制是java集合(Collection)中的一种错误机制。
         // 当多个线程对同一个集合的内容进行操作时，就可能会产生fail-fast事件。

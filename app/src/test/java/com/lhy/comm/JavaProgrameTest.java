@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.System.out;
+import static java.lang.System.setProperty;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -21,10 +22,11 @@ public class JavaProgrameTest {
     @Test
     public void testMain(){
 //        testOOPMalloc();
-//        testOOPBasic1();
+        testOOPBasic1();
 //        testArgument();
+//        new JavaProgrameTest().testInnerClass();
 //        testInnerClass();
-        new BaseGenericType<String>().testWildcard();
+//        new BaseGenericType<String>().testWildcard();
     }
 
     @Test
@@ -37,6 +39,33 @@ public class JavaProgrameTest {
     private class B{}
     protected class C{}
     class D{}
+
+
+    public static class A1{
+        public int a=1;
+        public static int b=1;
+
+        public static void printStaticSuperMember(){
+            out.println("A1 printStaticSuperMember");
+        }
+    }
+
+    public static class A2 extends A1{
+        public int a=2;
+        public static int b=2;
+
+        //实例对象，子类包含父类对象的数据，通过super/this来区分子类、父类的成员，并可访问静态变量
+        public void printSuperMember(){
+            out.println("A2 super: " + super.a + super.b);
+        }
+
+        public static void printStaticSuperMember(){
+            out.println("A2 printStaticSuperMember");
+            //编译不通过，super是实例对象的关键字，静态方法中，不能用动态关键字
+//            out.println("A2 static super: " + super.b);
+        }
+    }
+
 
 
     //接口是一种规范协定
@@ -165,6 +194,32 @@ public class JavaProgrameTest {
         // 重难点，易混淆点
         // 多态与继承，代码上，仅区别于声明时，是用父类声明，还是子类本类声明；
         // 运行时区别在于背后的找实际运行方法的曲折，多态实际是父类对象，找实际内容是堆中子类对象的实际方法而执行之。
+
+        //子类成员属性可覆盖父类成员属性，包括静态、非静态
+        //覆盖后的访问方式，两种，一是通过对象访问，一是通过类名直接访问，
+        // 而对象访问，又分外部访问和内部访问。
+        // 对象外部访问，是指new A1().b, new A2().b
+        //对象内部访问，是指类的实例方法中，通过super/this来访问父类、子类的成员属性，包括静态、非静态。
+        // 类的静态方法中，无法使用super/this关键字，也因此只能访问静态变量
+        out.println("Object A1: " + new A1().a + ", " + new A1().b);
+        out.println("Object A2: " + new A2().a + ", " + new A2().b);
+        new A2().printSuperMember();
+
+        //使用类名直接访问静态变量，静态方法，直捣鸟巢，没什么多态之说。
+        //（本质上就是，这些成员是隶属于类级的，是该类的，最终都是通过类级别的访问，本质是到方法区对应的类去访问，
+        // 不像对象在堆中，动态生成，提供了多态访问的机制）
+        out.println("static A1: " + A1.b);
+        out.println("static A2: " + A2.b);
+
+        //类的方法，是类成员的一种，都是可以覆盖的。
+        //对于静态方法，一样是可以覆盖的。
+        A1.printStaticSuperMember();
+        A2.printStaticSuperMember();
+        new A1().printStaticSuperMember();
+        new A2().printStaticSuperMember();
+        //特别注意这个，静态方法被覆盖，不存在多态。
+        A1 a1a2 = new A2();
+        a1a2.printStaticSuperMember();
     }
 
     public class Animal{
@@ -249,7 +304,11 @@ public class JavaProgrameTest {
     //静态内部类，非静态内部类，外部类，外围类
     //在外部类/外围类/对象中使用
     public static class OutterClass{
-        int mOutterClassMember = 0;
+        static {
+            out.println("run static code block in OutterClass ...");
+        }
+
+        public int mOutterClassMember = 0;
 
         public class InnerClass{
             public void testInnerClass(){
@@ -259,6 +318,10 @@ public class JavaProgrameTest {
         }
 
         static class StaticInnerClass{
+            static {
+                out.println("run static code block in StaticInnerClass ...");
+            }
+
             public void testStaticInnerClass(){
                 out.println("I'm StaticInnerClass");
             }
@@ -426,15 +489,26 @@ class ImNotInnerClass{
 }
 
 /**
- * 泛型，泛化类型也。
- * 即形式参数上升到最极端层面，泛指某种类型，某些类型，甚至任意类型
- * 目的：更通用的编程，防止类型转换的安全风险(将类型转换提到编译期，并用泛型的一些编译检查规则规避之)
+ * 泛型，泛化类型也。也有称参数化类型
+ * 即形式参数上升到最极端层面，泛指某种类型，某些类型，甚至任意类型。
+ * 目的与作用：
+ * 提高代码的重用率。更通用的编程。
+ * 防止类型转换的安全风险(将类型转换提到编译期，并用泛型的一些编译检查规则规避之)
  *
  * 重难点：通配符。全通，类型限定上限，下限，反射
  */
 class BaseGenericType<E>{
     public <S> void testType(S s){
 
+    }
+
+    //编译期，同一种泛型可以对应多个版本（因为参数类型是不确的），不同版本的泛型类实例是不兼容的。
+    //即ArrayList<String> 和 ArrayList<Integer>是不同的
+    public void testBaseGenericType(){
+        ArrayList<String> a;
+        ArrayList<Integer> b;
+        //这句编译不通过，提示类型不符合
+//        a = b;
     }
 
     //------------------ ?通配符 ------------------
@@ -533,6 +607,14 @@ class BaseGenericType<E>{
          * 为什么通过反射创建对象比new语句创建对象要慢？答案如上。
          */
     }
+}
+
+//泛型参数是可以多个的
+class BaseGenericType2<E,D,F,V,S>{
+    public void testE(E e){}
+    public void testD(D d, E e){}
+    public void testF(F f, D d){}
+    public void testV(V e){}
 }
 
 
